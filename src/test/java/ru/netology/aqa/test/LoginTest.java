@@ -27,8 +27,8 @@ public class LoginTest {
     }
 
     @Test
-    @DisplayName("Should be success when login with test user")
-    void shouldLoginSuccess1() {
+    @DisplayName("Should be success when logging in with a test user")
+    void shouldBeSuccess1() {
         var authInfo = DataHelper.getTestUser();
         var verificationPage = loginPage.validLogin(authInfo);
         verificationPage.shouldBeVisible();
@@ -37,8 +37,8 @@ public class LoginTest {
     }
 
     @Test
-    @DisplayName("Should be success when login with registered new user")
-    void shouldLoginSuccess2() {
+    @DisplayName("Should be success when logging in with a registered new user.")
+    void shouldBeSuccess2() {
         var authInfo = DataHelper.generateValidNewUser(DataHelper.generateRandomLogin());
         var verificationPage = loginPage.validLogin(authInfo);
         verificationPage.shouldBeVisible();
@@ -47,7 +47,7 @@ public class LoginTest {
     }
 
     @Test
-    @DisplayName("Should be error when login with unregistered user")
+    @DisplayName("Should be an error when logging in with an unregistered user")
     void shouldBeError1() {
         var authInfo = DataHelper.generateRandomUser();
         loginPage.validLogin(authInfo);
@@ -55,7 +55,7 @@ public class LoginTest {
     }
 
     @Test
-    @DisplayName("Should be error when login with valid user, but invalid verification code")
+    @DisplayName("Should be an error when logging in with a valid user, but an invalid verification code")
     void shouldBeError2() {
         var authInfo = DataHelper.generateValidNewUser(DataHelper.generateRandomLogin());
         var verificationPage = loginPage.validLogin(authInfo);
@@ -66,15 +66,16 @@ public class LoginTest {
     }
 
     @Test
-    @DisplayName("User should be blocked, it he made 3 attempts to login with invalid password")
+    @DisplayName("The user should be blocked if he made 3 attempts to login with an invalid password")
     void shouldBeBlocked() {
-        var newUserName = DataHelper.generateRandomLogin();
-        DataHelper.generateValidNewUser(newUserName);
-        var newUserWithInvalidPass = new DataHelper.AuthInfo(newUserName, DataHelper.generateRandomPassword()); //Тот же юзер, но с заведомо неправильным паролем
+        var userName = DataHelper.generateRandomLogin();
+        DataHelper.generateValidNewUser(userName);
+        var newUserWithInvalidPass = new DataHelper.AuthInfo(userName, DataHelper.generateRandomPassword()); //Тот же юзер, но с заведомо неправильным паролем
         loginPage.validLogin(newUserWithInvalidPass);
         loginPage.validLogin(newUserWithInvalidPass);
         loginPage.validLogin(newUserWithInvalidPass);
-        Assertions.assertEquals("blocked", getUserStatus(newUserName));
+        //loginPage.shouldBeErrorNotification("Вы были заблокированы");
+        Assertions.assertEquals("blocked", getUserStatus(userName));
     }
 
 }

@@ -23,15 +23,16 @@ public class SQLHelper {
     public static String getUserStatus(String userName) {
         var dataSQL = "SELECT status FROM users WHERE login = ?";
         var conn = getConn();
-        return runner.query(conn, dataSQL, userName, new ScalarHandler<String>());
+        return runner.query(conn, dataSQL, new ScalarHandler<String>(), userName);
     }
+
     @SneakyThrows
     public static void registerNewUser(String userName) {
         final var id = java.util.UUID.randomUUID().toString();
-        final var encryptedQWERTYString = "$2a$10$wgzt4VFg6nViUmy6eXxjhOTfpQ5xL.jKCcpgnF4Dsvnk3AHI3/cD6";
+        final var encryptedQWERTY123String = "$2a$10$wgzt4VFg6nViUmy6eXxjhOTfpQ5xL.jKCcpgnF4Dsvnk3AHI3/cD6";
         var dataSQL = "INSERT INTO users(id, login, password, status) VALUES (?, ?, ?, ?)";
         var conn = getConn();
-        runner.update(conn, dataSQL, id, userName, encryptedQWERTYString, "active");
+        runner.update(conn, dataSQL, id, userName, encryptedQWERTY123String, "active");
     }
 
     @SneakyThrows
@@ -44,16 +45,16 @@ public class SQLHelper {
 
     @SneakyThrows
     public static void cleanDatabase() {
-        var connection = getConn();
-        runner.execute(connection, "DELETE FROM auth_codes");
-        runner.execute(connection, "DELETE FROM card_transactions");
-        runner.execute(connection, "DELETE FROM cards");
-        runner.execute(connection, "DELETE FROM users");
+        var conn = getConn();
+        runner.execute(conn, "DELETE FROM auth_codes");
+        runner.execute(conn, "DELETE FROM card_transactions");
+        runner.execute(conn, "DELETE FROM cards");
+        runner.execute(conn, "DELETE FROM users");
     }
 
     @SneakyThrows
     public static void cleanAuthCodes() {
-        var connection = getConn();
-        runner.execute(connection, "DELETE FROM auth_codes");
+        var conn = getConn();
+        runner.execute(conn, "DELETE FROM auth_codes");
     }
 }

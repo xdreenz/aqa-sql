@@ -1,12 +1,13 @@
 package ru.netology.aqa.data;
 
 import com.github.javafaker.Faker;
-import static ru.netology.aqa.data.SQLHelper.*;
 import lombok.Value;
 
 public class DataHelper {
     private static final Faker faker = new Faker();
-    private DataHelper() {}
+
+    private DataHelper() {
+    }
 
     public static String generateRandomLogin() {
         return faker.name().username();
@@ -17,7 +18,7 @@ public class DataHelper {
     }
 
     public static AuthInfo generateValidNewUser(String userName) {
-        registerNewUser(userName);
+        SQLHelper.registerNewUser(userName);
         return new AuthInfo(userName, "qwerty123");
     }
 
@@ -38,6 +39,7 @@ public class DataHelper {
         String login;
         String password;
     }
+
     @Value
     public static class VerificationCode {
         String code;
