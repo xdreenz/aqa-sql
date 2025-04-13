@@ -33,7 +33,7 @@ public class LoginTest {
         var verificationPage = loginPage.validLogin(authInfo);
         verificationPage.shouldBeVisible();
         var verificationCode = getVerificationCode();
-        verificationPage.validVerify(verificationCode.getCode());
+        verificationPage.validVerify(verificationCode.code());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class LoginTest {
         var verificationPage = loginPage.validLogin(authInfo);
         verificationPage.shouldBeVisible();
         var verificationCode = getVerificationCode();
-        verificationPage.validVerify(verificationCode.getCode());
+        verificationPage.validVerify(verificationCode.code());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class LoginTest {
         var verificationPage = loginPage.validLogin(authInfo);
         verificationPage.shouldBeVisible();
         var verificationCode = DataHelper.generateRandomVerificationCode();
-        verificationPage.codeVerify(verificationCode.getCode());
+        verificationPage.codeVerify(verificationCode.code());
         verificationPage.shouldBeErrorNotification("Ошибка! \nНеверно указан код! Попробуйте ещё раз.");
     }
 
